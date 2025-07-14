@@ -11,7 +11,7 @@ project repo: http://github.com/
 ### step 2 :Creata a conda environment
 '''
 bash
-conda create -n medibot python=3.8-y
+conda create -n medibot python=3.10-y
 '''
 
 

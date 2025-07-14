@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Chatbot Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <img src="{{ url_for('static', filename='bot_avatar.png') }}" class="avatar header-avatar" alt="Bot Avatar">
+            <div>
+                <div class="chat-title">Medical Chatbot</div>
+                <div class="chat-subtitle">Ask me anything!</div>
+            </div>
+        </div>
+        <!-- Chat area -->
+        <div class="chat-area" id="chat-area">
+            {% for msg in messages %}
+                <div class="chat-message-row {{ 'bot-row' if msg['from']=='bot' else 'user-row' }}">
+                    <img src="{{ url_for('static', filename=('bot_avatar.png' if msg['from']=='bot' else 'user_avatar.png')) }}" class="avatar msg-avatar" alt="Avatar">
+                    <div class="chat-bubble {{ 'bot-bubble' if msg['from']=='bot' else 'user-bubble' }}">
+                        {{ msg['text']|safe }}
+                        <div class="msg-time">{{ msg['time'] }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Input form -->
+        <form id="chat-form" class="chat-input-container" action="/ask" method="post" autocomplete="off">
+            <input type="text" name="msg" id="msg" placeholder="Type your message..." required>
+            <button type="submit"><span>&#9658;</span></button>
+        </form>
+    </div>
+    <!-- Auto-scroll JS -->
+    <script>
+        const chatArea = document.getElementById('chat-area');
+        if(chatArea) chatArea.scrollTop = chatArea.scrollHeight;
+    </script>
+</body>
+</html>
